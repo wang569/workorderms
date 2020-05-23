@@ -26,7 +26,7 @@ public class WorkOrderPlanService {
      * @param workOrderPlan
      * @return
      */
-    public int CreateWorkOrderPlan(WorkOrderPlan workOrderPlan) {
+    public int createWorkOrderPlan(WorkOrderPlan workOrderPlan) {
 
         //1 根据科室代码生成工单号
         String number = utils.createWorkOrderNumber(workOrderPlan.getNumber());
@@ -37,5 +37,27 @@ public class WorkOrderPlanService {
         workOrderPlan.setCycle(cycle);
         int result = workOrderPlanDao.insert(workOrderPlan);
         return result;
+    }
+
+    /**
+     * 实现工单计划编辑功能
+     *
+     * @param workOrderPlan 工单计划
+     */
+    public boolean editWorkOrderPlan(WorkOrderPlan workOrderPlan) {
+
+        int result = workOrderPlanDao.update(workOrderPlan);
+        return result <= 0 ? false : true;
+    }
+
+    /**
+     * 删除工单计划
+     * @param workOrderPlan
+     * @return
+     */
+    public boolean deleteWorkOrderPlan(WorkOrderPlan workOrderPlan) {
+
+        int result = workOrderPlanDao.delete(workOrderPlan);
+        return result <= 0 ? false : true;
     }
 }

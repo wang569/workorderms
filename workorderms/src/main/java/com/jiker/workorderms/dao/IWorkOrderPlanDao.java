@@ -32,4 +32,18 @@ public interface IWorkOrderPlanDao {
      * @return
      */
     boolean batchUpdateStatus(List<WorkOrderPlan> workOrderPlanList);
+
+    /**
+     * 更新工单计划
+     * @param workOrderPlan
+     * @return
+     */
+    int update(WorkOrderPlan workOrderPlan);
+
+    /**
+     * 删除工单计划
+     * @param workOrderPlan
+     * @return
+     */
+    int delete(WorkOrderPlan workOrderPlan);
 }

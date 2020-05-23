@@ -74,4 +74,22 @@ public class WorkOrderPlanDaoImpl implements IWorkOrderPlanDao {
         }
         return result;
     }
+
+    @Override
+    public int update(WorkOrderPlan workOrderPlan) {
+
+        String sql = "update workorderms.workorder_plan set content = ?" +
+                ", plan_start_time = ?, plan_end_time = ? ,executor = ? where id = ?";
+
+        int result = jdbcTemplate.update(sql, workOrderPlan.getContent(), workOrderPlan.getPlan_start_time(),
+                workOrderPlan.getPlan_end_time(), workOrderPlan.getExecutor(), workOrderPlan.getId());
+
+        return result;
+    }
+
+    @Override
+    public int delete(WorkOrderPlan workOrderPlan) {
+        String sql = "delete from workorderms.workorder_plan where id = ?";
+        return jdbcTemplate.update(sql, workOrderPlan.getId());
+    }
 }
