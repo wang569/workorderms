@@ -19,6 +19,13 @@ public interface IWorkOrderPlanDao {
     int insert(WorkOrderPlan workOrderPlan);
 
     /**
+     * 根据Id查询工作订单
+     * @param id
+     * @return
+     */
+    WorkOrderPlan queryById(int id);
+
+    /**
      * 根据SQL查询一个字段值
      * @param sql
      * @param field

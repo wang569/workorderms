@@ -6,9 +6,11 @@ import com.jiker.workorderms.dao.IWorkOrderPlanDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -33,8 +35,15 @@ public class WorkOrderPlanDaoImpl implements IWorkOrderPlanDao {
                         "plan_start_time,plan_end_time,role,executor,status) values (?,?,?,?,?,?,?,?,?)",
                 workOrderPlan.getNumber(), workOrderPlan.getName(), workOrderPlan.getContent(), workOrderPlan.getCycle(),
                 workOrderPlan.getPlan_start_time(), workOrderPlan.getPlan_end_time(), workOrderPlan.getRole(),
-                workOrderPlan.getExecutor(), Objects.isNull(workOrderPlan.getStatus())?"0":workOrderPlan.getStatus());
+                workOrderPlan.getExecutor(), Objects.isNull(workOrderPlan.getStatus()) ? "0" : workOrderPlan.getStatus());
         return result;
+    }
+
+    @Override
+    public WorkOrderPlan queryById(int id) {
+        String sql = "select * from workorder_plan where id = ?";
+        List<WorkOrderPlan> results = jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(WorkOrderPlan.class), id);
+        return Objects.isNull(results) ? null : results.get(0);
     }
 
     @Override
@@ -69,7 +78,7 @@ public class WorkOrderPlanDaoImpl implements IWorkOrderPlanDao {
                     return workOrderPlanList.size();
                 }
             });
-        }catch (DataAccessException e){
+        } catch (DataAccessException e) {
             result = false;
         }
         return result;
